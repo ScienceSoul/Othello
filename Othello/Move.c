@@ -8,7 +8,7 @@
 #include "Move.h"
 
 //
-//  Allocate a single node in the possible moves
+//  Allocate a node for the possible moves
 //
 pthreadMoveNode * __nonnull allocatePthreadMoveNode(void) {
     

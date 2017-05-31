@@ -13,6 +13,7 @@
 		7371ACEA1ED68D0900E291B6 /* Utils.c in Sources */ = {isa = PBXBuildFile; fileRef = 7371ACE81ED68D0900E291B6 /* Utils.c */; };
 		7371ACED1ED6A91000E291B6 /* Move.c in Sources */ = {isa = PBXBuildFile; fileRef = 7371ACEB1ED6A91000E291B6 /* Move.c */; };
 		7371ACF01ED6B17A00E291B6 /* Score.c in Sources */ = {isa = PBXBuildFile; fileRef = 7371ACEE1ED6B17A00E291B6 /* Score.c */; };
+		7371ACF81EDE735100E291B6 /* HumanAgainstAgent.c in Sources */ = {isa = PBXBuildFile; fileRef = 7371ACF61EDE735100E291B6 /* HumanAgainstAgent.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -41,6 +42,8 @@
 		7371ACEE1ED6B17A00E291B6 /* Score.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Score.c; sourceTree = "<group>"; };
 		7371ACEF1ED6B17A00E291B6 /* Score.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Score.h; sourceTree = "<group>"; };
 		7371ACF11ED711C600E291B6 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		7371ACF61EDE735100E291B6 /* HumanAgainstAgent.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = HumanAgainstAgent.c; sourceTree = "<group>"; };
+		7371ACF71EDE735100E291B6 /* HumanAgainstAgent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HumanAgainstAgent.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +78,8 @@
 			children = (
 				7371ACF11ED711C600E291B6 /* Makefile */,
 				7371ACDB1ED58BF500E291B6 /* main.c */,
+				7371ACF61EDE735100E291B6 /* HumanAgainstAgent.c */,
+				7371ACF71EDE735100E291B6 /* HumanAgainstAgent.h */,
 				7371ACE51ED6884000E291B6 /* Board.c */,
 				7371ACE61ED6884000E291B6 /* Board.h */,
 				7371ACEB1ED6A91000E291B6 /* Move.c */,
@@ -151,6 +156,7 @@
 				7371ACE71ED6884000E291B6 /* Board.c in Sources */,
 				7371ACEA1ED68D0900E291B6 /* Utils.c in Sources */,
 				7371ACE41ED6880F00E291B6 /* Memory.c in Sources */,
+				7371ACF81EDE735100E291B6 /* HumanAgainstAgent.c in Sources */,
 				7371ACF01ED6B17A00E291B6 /* Score.c in Sources */,
 				7371ACDC1ED58BF500E291B6 /* main.c in Sources */,
 			);

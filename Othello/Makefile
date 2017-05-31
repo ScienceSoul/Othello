@@ -16,7 +16,7 @@ INCLUDES = -I../include
 
 LIBS = -lm
 
-SRCS = main.c Board.c Move.c Score.c Memory.c Utils.c
+SRCS = main.c HumanAgainstAgent.c Board.c Move.c Score.c Memory.c Utils.c
 
 # define the C object files
 #

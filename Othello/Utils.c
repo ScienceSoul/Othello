@@ -5,6 +5,7 @@
 //  Created by Seddik hakime on 21/05/2017.
 //
 
+#include <Accelerate/Accelerate.h>
 #include "Utils.h"
 #include "Memory.h"
 
@@ -72,6 +73,109 @@ void format(char * __nullable head, char * __nullable message, int *iValue, doub
     exit(-1);
 }
 
+int loadParameters(int * __nonnull ntLayers, size_t * __nonnull numberOfLayers, float * __nonnull eta, float * __nonnull lambda, float * __nonnull gamma, float * __nonnull epsilon, size_t * __nonnull numberOfGames) {
+    
+    // Very basic parsing of our inpute parameters file.
+    // TODO: Needs to change that to something more flexible and with better input validation
+    
+    FILE *f1 = fopen("parameters.dat","r");
+    if(!f1) {
+        f1 = fopen("./params/parameters.dat","r");
+        if(!f1) {
+            f1 = fopen("../params/parameters.dat","r");
+             if(!f1) {
+                 fprintf(stdout,"FeedforwardNT: can't find the input parameters file.\n");
+                 return -1;
+             }
+        }
+    }
+    
+    char string[256];
+    int lineCount = 1;
+    do {
+        fscanf(f1,"%s\n", string);
+        
+        if (lineCount == 1 && string[0] != '{') {
+            fatal("FeedforwardNT", "syntax error in the file for the input parameters.");
+        } else if (lineCount == 1) {
+            lineCount++;
+            continue;
+        };
+        
+        if (string[0] == '!') continue;
+        
+        if (lineCount == 2) {
+            parseArgument(string, "network definition", ntLayers, numberOfLayers);
+        }
+        if (lineCount == 3) {
+            *eta = strtof(string, NULL);
+        }
+        if (lineCount == 4) {
+            *lambda = strtof(string, NULL);
+        }
+        if (lineCount == 5) {
+            *gamma = strtof(string, NULL);
+        }
+        if (lineCount == 6) {
+            *epsilon = strtof(string, NULL);
+        }
+        if (lineCount == 7) {
+            *numberOfGames = atoi(string);
+        }
+        lineCount++;
+    } while (string[0] != '}');
+    
+    return 0;
+}
+
+float * __nonnull * __nonnull createTrainigData(float * __nonnull * __nonnull dataSet, size_t start, size_t end, size_t * __nonnull t1, size_t * __nonnull t2, int * __nonnull classifications, size_t numberOfClassifications, int * __nonnull inoutSizes) {
+    
+    int idx;
+    float **trainingData = NULL;
+    trainingData = floatmatrix(0, end-1, 0, (inoutSizes[0]+inoutSizes[1])-1);
+    *t1 = end;
+    *t2 = inoutSizes[0]+inoutSizes[1];
+    
+    if (inoutSizes[1] != numberOfClassifications) {
+        fatal("FeedforwardNT", "the number of classifications should be equal to the number of activations.");
+    }
+    
+    for (int i=0; i<end; i++) {
+        for (int j=0; j<inoutSizes[0]; j++) {
+            trainingData[i][j] = dataSet[i][j];
+        }
+        
+        idx = inoutSizes[0];
+        for (int k=0; k<inoutSizes[1]; k++) {
+            trainingData[i][idx] = 0.0f;
+            idx++;
+        }
+        for (int k=0; k<numberOfClassifications; k++) {
+            if (dataSet[i][inoutSizes[0]] == classifications[k]) {
+                trainingData[i][inoutSizes[0]+k] = 1.0f;
+            }
+        }
+    }
+    
+    return trainingData;
+}
+
+float * __nonnull * __nonnull createTestData(float * __nonnull * __nonnull dataSet, size_t len1, size_t len2, size_t start, size_t end, size_t * __nonnull t1, size_t * __nonnull t2) {
+    
+    float **testData = floatmatrix(0, end, 0, len2-1);
+    *t1 = end;
+    *t2 = len2;
+    
+    int idx = 0;
+    for (int i=(int)start; i<start+end; i++) {
+        for (int j=0; j<len2; j++) {
+            testData[idx][j] = dataSet[i][j];
+        }
+        idx++;
+    }
+    return testData;
+}
+
 void shuffle(float * __nonnull * __nonnull array, size_t len1, size_t len2) {
     
     float t[len2];
@@ -101,16 +205,16 @@ void parseArgument(const char * __nonnull argument, const char * __nonnull argum
     fprintf(stdout, "FeedforwardNT: parsing the %s parameter: %s.\n", argumentName, argument);
     
     size_t len = strlen(argument);
-    if (argument[0] != '{' || argument[len-1] != '}') fatal("Othello", "imput argument for network definition should start with <{> and end with <}>.");
+    if (argument[0] != '{' || argument[len-1] != '}') fatal("FeedforwardNT", "mput argument for network definition should start with <{> and end with <}>.");
     
     while (argument[idx] != '}') {
         if (argument[idx] == '{') {
-            if (argument[idx +1] == ',' || argument[idx +1] == '{') fatal("Othello", "syntax error <{,> or <{{> in imput argument for network definition.");
+            if (argument[idx +1] == ',' || argument[idx +1] == '{') fatal("FeedforwardNT", "syntax error <{,> or <{{> in imput argument for network definition.");
             idx++;
             continue;
         }
         if (argument[idx] == ',') {
-            if (argument[idx +1] == '}' || argument[idx +1] == ',') fatal("Othello", "syntax error <,}> or <,,> in imput argument for network definition.");
+            if (argument[idx +1] == '}' || argument[idx +1] == ',') fatal("FeedforwardNT", "syntax error <,}> or <,,> in imput argument for network definition.");
             (*numberOfItems)++;
             idx++;
             continue;
@@ -203,6 +307,51 @@ int __attribute__((overloadable)) argmax(float * __nonnull a, size_t num_element
     }
     
     return idx;
+}
+
+//  The sigmoid fonction
+float sigmoid(float z) {
+    return 1.0f / (1.0f + expf(-z));
+}
+
+// Derivative of the sigmoid function
+float sigmoidPrime(float z) {
+    return sigmoid(z) * (1.0f - sigmoid(z));
+}
+
+//
+//  Compute the Frobenius norm of a m x n matrix
+//
+float frobeniusNorm(float * __nonnull * __nonnull mat, size_t m, size_t n) {
+    
+    float norm = 0.0f;
+    for (int i=0; i<m; i++) {
+        for (int j=0; j<n; j++) {
+            norm = norm + powf(mat[i][j], 2.0f);
+        }
+    }
+    
+    return sqrtf(norm);
+}
+
+float crossEntropyCost(float * __nonnull a, float * __nonnull y, size_t n) {
+    
+    float cost = 0.0f;
+    float buffer[n];
+    
+    for (int i=0; i<n; i++) {
+        buffer[i] = -y[i]*logf(a[i]) - (1.0f-y[i])*logf(1.0-a[i]);
+    }
+    nanToNum(buffer, n);
+#ifdef __APPLE__
+    vDSP_sve(buffer, 1, &cost, n);
+#else
+    for (int i=0; i<n; i++) {
+        cost = cost + buffer[i];
+    }
+#endif
+    
+    return cost;
 }
 
 void  __attribute__((overloadable)) nanToNum(float * __nonnull array, size_t n) {

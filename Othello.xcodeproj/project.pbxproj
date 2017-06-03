@@ -14,6 +14,10 @@
 		7371ACED1ED6A91000E291B6 /* Move.c in Sources */ = {isa = PBXBuildFile; fileRef = 7371ACEB1ED6A91000E291B6 /* Move.c */; };
 		7371ACF01ED6B17A00E291B6 /* Score.c in Sources */ = {isa = PBXBuildFile; fileRef = 7371ACEE1ED6B17A00E291B6 /* Score.c */; };
 		7371ACF81EDE735100E291B6 /* HumanAgainstAgent.c in Sources */ = {isa = PBXBuildFile; fileRef = 7371ACF61EDE735100E291B6 /* HumanAgainstAgent.c */; };
+		7371AD011EDFB52400E291B6 /* NeuralNetwork.c in Sources */ = {isa = PBXBuildFile; fileRef = 7371ACFF1EDFB52400E291B6 /* NeuralNetwork.c */; };
+		7371AD041EDFB54E00E291B6 /* TimeProfile.c in Sources */ = {isa = PBXBuildFile; fileRef = 7371AD021EDFB54E00E291B6 /* TimeProfile.c */; };
+		7371AD071EDFC08E00E291B6 /* NeuralAgent.c in Sources */ = {isa = PBXBuildFile; fileRef = 7371AD051EDFC08E00E291B6 /* NeuralAgent.c */; };
+		7371AD0A1EE06D4900E291B6 /* AgentAgainstAgent.c in Sources */ = {isa = PBXBuildFile; fileRef = 7371AD081EE06D4900E291B6 /* AgentAgainstAgent.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -44,6 +48,14 @@
 		7371ACF11ED711C600E291B6 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		7371ACF61EDE735100E291B6 /* HumanAgainstAgent.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = HumanAgainstAgent.c; sourceTree = "<group>"; };
 		7371ACF71EDE735100E291B6 /* HumanAgainstAgent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HumanAgainstAgent.h; sourceTree = "<group>"; };
+		7371ACFF1EDFB52400E291B6 /* NeuralNetwork.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = NeuralNetwork.c; sourceTree = "<group>"; };
+		7371AD001EDFB52400E291B6 /* NeuralNetwork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NeuralNetwork.h; sourceTree = "<group>"; };
+		7371AD021EDFB54E00E291B6 /* TimeProfile.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = TimeProfile.c; sourceTree = "<group>"; };
+		7371AD031EDFB54E00E291B6 /* TimeProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeProfile.h; sourceTree = "<group>"; };
+		7371AD051EDFC08E00E291B6 /* NeuralAgent.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = NeuralAgent.c; sourceTree = "<group>"; };
+		7371AD061EDFC08E00E291B6 /* NeuralAgent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NeuralAgent.h; sourceTree = "<group>"; };
+		7371AD081EE06D4900E291B6 /* AgentAgainstAgent.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = AgentAgainstAgent.c; sourceTree = "<group>"; };
+		7371AD091EE06D4900E291B6 /* AgentAgainstAgent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AgentAgainstAgent.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,8 +90,14 @@
 			children = (
 				7371ACF11ED711C600E291B6 /* Makefile */,
 				7371ACDB1ED58BF500E291B6 /* main.c */,
+				7371ACFF1EDFB52400E291B6 /* NeuralNetwork.c */,
+				7371AD001EDFB52400E291B6 /* NeuralNetwork.h */,
+				7371AD051EDFC08E00E291B6 /* NeuralAgent.c */,
+				7371AD061EDFC08E00E291B6 /* NeuralAgent.h */,
 				7371ACF61EDE735100E291B6 /* HumanAgainstAgent.c */,
 				7371ACF71EDE735100E291B6 /* HumanAgainstAgent.h */,
+				7371AD081EE06D4900E291B6 /* AgentAgainstAgent.c */,
+				7371AD091EE06D4900E291B6 /* AgentAgainstAgent.h */,
 				7371ACE51ED6884000E291B6 /* Board.c */,
 				7371ACE61ED6884000E291B6 /* Board.h */,
 				7371ACEB1ED6A91000E291B6 /* Move.c */,
@@ -90,6 +108,8 @@
 				7371ACE31ED6880F00E291B6 /* Memory.h */,
 				7371ACE81ED68D0900E291B6 /* Utils.c */,
 				7371ACE91ED68D0900E291B6 /* Utils.h */,
+				7371AD021EDFB54E00E291B6 /* TimeProfile.c */,
+				7371AD031EDFB54E00E291B6 /* TimeProfile.h */,
 			);
 			path = Othello;
 			sourceTree = "<group>";
@@ -152,10 +172,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7371AD0A1EE06D4900E291B6 /* AgentAgainstAgent.c in Sources */,
 				7371ACED1ED6A91000E291B6 /* Move.c in Sources */,
+				7371AD011EDFB52400E291B6 /* NeuralNetwork.c in Sources */,
 				7371ACE71ED6884000E291B6 /* Board.c in Sources */,
 				7371ACEA1ED68D0900E291B6 /* Utils.c in Sources */,
 				7371ACE41ED6880F00E291B6 /* Memory.c in Sources */,
+				7371AD041EDFB54E00E291B6 /* TimeProfile.c in Sources */,
+				7371AD071EDFC08E00E291B6 /* NeuralAgent.c in Sources */,
 				7371ACF81EDE735100E291B6 /* HumanAgainstAgent.c in Sources */,
 				7371ACF01ED6B17A00E291B6 /* Score.c in Sources */,
 				7371ACDC1ED58BF500E291B6 /* main.c in Sources */,

@@ -10,6 +10,7 @@
 
 #include <stdio.h>
 #include <ctype.h>
+#include "Board.h"
 #include "Memory.h"
 
 #endif /* HumanAgainstAgent_h */

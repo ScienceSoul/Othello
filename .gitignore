@@ -1,0 +1,8 @@
+# Mac OX S
+*.DS_Store
+
+# XCode
+Othello.xcodeproj/project.xcworkspace/*
+Othello.xcodeproj/xcuserdata/*
+
+*.dat

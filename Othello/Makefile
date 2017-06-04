@@ -12,11 +12,12 @@ CFLAGS = -Wall -O3
 
 INCLUDES = -I../include
 
-#LFLAGS = -L/
+# BLAS/LAPACK on macOS or use any other implementation
+LFLAGS = -framework Accelerate
 
 LIBS = -lm
 
-SRCS = main.c HumanAgainstAgent.c Board.c Move.c Score.c Memory.c Utils.c
+SRCS = main.c AgentAgainstAgent.c HumanAgainstAgent.c NeuralNetwork.c NeuralAgent.c Board.c Move.c Score.c Memory.c Utils.c TimeProfile.c
 
 # define the C object files
 #

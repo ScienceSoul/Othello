@@ -56,6 +56,7 @@
 		7371AD061EDFC08E00E291B6 /* NeuralAgent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NeuralAgent.h; sourceTree = "<group>"; };
 		7371AD081EE06D4900E291B6 /* AgentAgainstAgent.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = AgentAgainstAgent.c; sourceTree = "<group>"; };
 		7371AD091EE06D4900E291B6 /* AgentAgainstAgent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AgentAgainstAgent.h; sourceTree = "<group>"; };
+		7371AD0C1EE4677900E291B6 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +89,7 @@
 		7371ACDA1ED58BF500E291B6 /* Othello */ = {
 			isa = PBXGroup;
 			children = (
+				7371AD0C1EE4677900E291B6 /* README */,
 				7371ACF11ED711C600E291B6 /* Makefile */,
 				7371ACDB1ED58BF500E291B6 /* main.c */,
 				7371ACFF1EDFB52400E291B6 /* NeuralNetwork.c */,

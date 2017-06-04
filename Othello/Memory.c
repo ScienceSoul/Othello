@@ -15,7 +15,7 @@ int * __nonnull intvec(long nl, long nh)
     int *v;
     
     v = (int *)malloc((size_t) ((nh-nl+1+FI_END)*sizeof(int)));
-    if (!v) fatal("Othello", "allocation failure for the integer vector.");
+    if (!v) fatal("Memory allocation failure for the integer vector.");
     return v-nl+FI_END;
 }
 
@@ -23,7 +23,7 @@ float * __nonnull floatvec(long nl, long nh) {
     float *v;
     
     v = (float *)malloc((size_t) ((nh-nl+1+FI_END)*sizeof(float)));
-    if (!v) fatal("Othello", "allocation failure for the float vector.");
+    if (!v) fatal("Memory allocation failure for the float vector.");
     return v-nl+FI_END;
 }
 
@@ -34,12 +34,12 @@ int * __nonnull * __nonnull intmatrix(long nrl, long nrh, long ncl, long nch)
     int **m;
     
     m = (int **) malloc((size_t) ((nrow+FI_END)*sizeof(int*)));
-    if (!m) fatal("Othello", "allocation failure for the integer matrix 1.");
+    if (!m) fatal("Memory allocation failure for the integer matrix 1.");
     m += FI_END;
     m -= nrl;
     
     m[nrl] = (int *) malloc((size_t) ((nrow*ncol+FI_END)*sizeof(int)));
-    if (!m[nrl]) fatal("Othello", "allocation failure for the integer matrix 2.");
+    if (!m[nrl]) fatal("Memory allocation failure for the integer matrix 2.");
     m[nrl] += FI_END;
     m[nrl] -= ncl;
     
@@ -54,12 +54,12 @@ float * __nonnull * __nonnull floatmatrix(long nrl, long nrh, long ncl, long nch
     float **m;
     
     m = (float **) malloc((size_t) ((nrow+FI_END)*sizeof(float*)));
-    if (!m) fatal("Othello", "allocation failure for the float matrix 1.");
+    if (!m) fatal("Memory allocation failure for the float matrix 1.");
     m += FI_END;
     m -= nrl;
     
     m[nrl]=(float *) malloc((size_t) ((nrow*ncol+FI_END)*sizeof(float)));
-    if (!m[nrl]) fatal("Othello", "allocation failure for the float matrix 2.");
+    if (!m[nrl]) fatal("Memory allocation failure for the float matrix 2.");
     m[nrl] += FI_END;
     m[nrl] -= ncl;
     
@@ -74,12 +74,12 @@ char * __nonnull * __nonnull charmatrix(long nrl, long nrh, long ncl, long nch) 
     char **m;
     
     m = (char **) malloc((size_t) ((nrow+FI_END)*sizeof(char*)));
-    if (!m) fatal("Othello", "allocation failure for the char matrix 1.");
+    if (!m) fatal("Memory allocation failure for the char matrix 1.");
     m += FI_END;
     m -= nrl;
     
     m[nrl]=(char *) malloc((size_t) ((nrow*ncol+FI_END)*sizeof(char)));
-    if (!m[nrl]) fatal("Othello", "allocation failure for the char matrix 2.");
+    if (!m[nrl]) fatal("Memory allocation failure for the char matrix 2.");
     m[nrl] += FI_END;
     m[nrl] -= ncl;
     

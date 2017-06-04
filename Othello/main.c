@@ -17,7 +17,7 @@ int main(int argc, const char * argv[]) {
     char *method = (char *)malloc(64*sizeof(char));
     memset(method, 0, 64*sizeof(char));
     
-    // Play modes:
+    // Playing modes:
     // play0: Plays a game with two agent players
     // play1: Plays a game with one agent player and one human player
     char *playMode = (char *)malloc(64*sizeof(char));

@@ -20,7 +20,7 @@ void agentAgainstAgent(char * __nonnull * __nonnull board, size_t size, int * __
     bool newGame;
 
     NeuralNetwork *neural = NULL;
-    size_t numberOfGame=0;
+    size_t numberOfGames=0;
     int ntLayers[100];
     size_t numberOfLayers=0;
     char **postState = NULL;
@@ -29,7 +29,7 @@ void agentAgainstAgent(char * __nonnull * __nonnull board, size_t size, int * __
     neural = allocateNeuralNetwork();
     
     memset(ntLayers, 0, sizeof(ntLayers));
-    if (loadParameters(ntLayers, &numberOfLayers, &eta, &lambda, &gamma, &epsilon, &numberOfGame) != 0) {
+    if (loadParameters(ntLayers, &numberOfLayers, &eta, &lambda, &gamma, &epsilon, &numberOfGames) != 0) {
         fatal("Othello", "failure reading input parameters.");
     }
     if (ntLayers[0] != (size*size)) {
@@ -42,10 +42,11 @@ void agentAgainstAgent(char * __nonnull * __nonnull board, size_t size, int * __
     neural->create((void *)neural, ntLayers, numberOfLayers, NULL, false);
     postState = charmatrix(0, size-1, 0, size-1);
     
-    for (int g=1; g<=numberOfGame; g++) {
+    int numberOfNeuralAgentVictories = 0;
+    for (int g=1; g<=numberOfGames; g++) {
         
         fprintf(stdout, "\n***************************************\n");
-        fprintf(stdout, "New game:\n");
+        fprintf(stdout, "Playing game %d:\n", g);
         fprintf(stdout, "***************************************\n");
         
         // On even games the opponent agent starts;
@@ -114,11 +115,14 @@ void agentAgainstAgent(char * __nonnull * __nonnull board, size_t size, int * __
         agentScore = opponentScore = 0;
         agentScore = getScore(board, '@', size);
         opponentScore = getScore(board, 'O', size);
+        if (agentScore > opponentScore) numberOfNeuralAgentVictories++;
         fprintf(stdout, "----------------------------------------------------------------------\n");
         fprintf(stdout,"Othello: the final score is:\n");
         fprintf(stdout,"Othello: Neural agent %d ------- Agent %d\n", agentScore, opponentScore);
         fprintf(stdout, "----------------------------------------------------------------------\n");
     }
+    fprintf(stdout, "Othello: number of neural agent victories during training: %d/%zu\n", numberOfNeuralAgentVictories, numberOfGames);
+    fprintf(stdout, "----------------------------------------------------------------------\n");
     
     neural->destroy((void *)neural, NULL, false);
     free(neural);

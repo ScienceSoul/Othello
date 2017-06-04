@@ -137,7 +137,7 @@ void neuralAgent(NeuralNetwork * __nonnull neural, char * __nonnull * __nonnull 
         }
     }
     training[0][inoutSizes[0]] = postStateValue;
-    neural->SDG((void *)neural, training, NULL, 1, (size*size)+1, NULL, NULL, ntLayers, numberOfLayers, inoutSizes, NULL, 1, 1, eta, lambda, false);
+    neural->SDG((void *)neural, training, NULL, 1, (size*size)+1, NULL, NULL, ntLayers, numberOfLayers, inoutSizes, NULL, 1, 1, eta, lambda, false, NULL);
     
     // Make the move and save it to the previous state
     

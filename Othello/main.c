@@ -42,7 +42,7 @@ int main(int argc, const char * argv[]) {
         memcpy(method, argv[2], strlen(argv[2])*sizeof(char));
         if (strcmp(method, "-minimax") != 0 && strcmp(method, "-evaluation-function") != 0 &&
             strcmp(method, "-neural-network") != 0) {
-            fatal("Othello", "unknown method to compute the agant moves.");
+            fatal("Othello", "unknown method to compute the agent moves.");
         }
     } else if (argc == 4) {
         size = atoi(argv[1]);
@@ -50,7 +50,7 @@ int main(int argc, const char * argv[]) {
         memcpy(method, argv[2], strlen(argv[2])*sizeof(char));
         if (strcmp(method, "-minimax") != 0 && strcmp(method, "-evaluation-function") != 0 &&
             strcmp(method, "-neural-network") != 0) {
-            fatal("Othello", "unknown method to compute the agant moves.");
+            fatal("Othello", "unknown method to compute the agent moves.");
         }
         
         memcpy(playMode, argv[3], strlen(argv[3])*sizeof(char));

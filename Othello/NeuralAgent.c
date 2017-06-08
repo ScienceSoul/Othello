@@ -3,7 +3,6 @@
 //  Othello
 //
 //  Created by Seddik hakime on 01/06/2017.
-//  Copyright © 2017 ScienceSoul. All rights reserved.
 //
 
 #include "NeuralAgent.h"

@@ -49,12 +49,13 @@ int computeAfterstatesStateValues(NeuralNetwork * __nonnull neural, char * __non
     return k;
 }
 
-void neuralAgent(NeuralNetwork * __nonnull neural, char * __nonnull * __nonnull board, size_t size, int * __nonnull * __nonnull moves, char * __nonnull * __nonnull postState, int * __nonnull ntLayers, size_t numberOfLayers, char player, float eta, float lambda, float gamma, float epsilon, bool * __nonnull newGame) {
+void neuralAgent(NeuralNetwork * __nonnull neural, char * __nonnull * __nonnull board, size_t size, int * __nonnull * __nonnull moves, char * __nonnull * __nonnull postState, int * __nonnull ntLayers, size_t numberOfLayers, char player, float eta, float lambda, float gamma, float epsilon, bool * __nonnull newGame, bool exploration, bool * __nullable useTrainindData) {
     
     int min = 0;
     int bestRow = 0;                             // Best row index
     int bestCol = 0;                             // Best column index
     int inoutSizes[2];
+    static bool loadedData = false;
     float movesStateValues[size*size];
     float postStateValue = 0.0f;
     float stateValue = 0.0f;
@@ -67,7 +68,28 @@ void neuralAgent(NeuralNetwork * __nonnull neural, char * __nonnull * __nonnull 
     float **training = floatmatrix(0, 0, 0, ((size*size)+1)-1);
     int **movesPositions = intmatrix(0, (size*size)-1, 0, 1);
     
-    if (*newGame == true) {
+    bool alreadyTrained = false;
+    if (useTrainindData != NULL) {
+        alreadyTrained = (*useTrainindData == true) ? true : false;
+    }
+    
+    if (exploration == false || alreadyTrained == true) {
+        if (loadedData == false) {
+            fprintf(stdout, "Othello: load existing weights and biases.\n");
+            if (alreadyTrained == true) {
+                if (loadWeightsAndBiases((void *)neural, ntLayers, numberOfLayers) != 0) {
+                    fprintf(stdout, "Othello: neural network training data not found, will train from scratch.\n");
+                }
+            } else {
+                if (loadWeightsAndBiases((void *)neural, ntLayers, numberOfLayers) != 0) {
+                    fatal("Othello", "failure reading weights and biases.");
+                }
+            }
+            loadedData = true;
+        }
+    }
+    
+    if (*newGame == true || exploration == false) {
         // Agent first turn, we just take the move which generates
         // the highest state value
         memset(movesStateValues, 0.0f, sizeof(movesStateValues));
@@ -79,20 +101,23 @@ void neuralAgent(NeuralNetwork * __nonnull neural, char * __nonnull * __nonnull 
         bestCol = movesPositions[pos][1];
         
         makeMove(board, bestRow, bestCol, player, size);
-        memcpy(*postState, *board, (size*size)*sizeof(char));
-
-        int agentScore, opponentScore;
-        agentScore = opponentScore = 0;
-        agentScore = getScore(board, '@', size);
-        opponentScore = getScore(board, 'O', size);
-        if (agentScore > opponentScore) { //win
-            reward = 1.0f;
-        } else if (agentScore < opponentScore) { //loss
-            reward = 0.0f;
-        } else reward = 0.5; //draw
-        fprintf(stdout, "Othello: reward: %f\n", reward);
         
-        *newGame = false;
+        if (exploration == true) {
+            memcpy(*postState, *board, (size*size)*sizeof(char));
+            
+            int agentScore, opponentScore;
+            agentScore = opponentScore = 0;
+            agentScore = getScore(board, '@', size);
+            opponentScore = getScore(board, 'O', size);
+            if (agentScore > opponentScore) { //win
+                reward = 1.0f;
+            } else if (agentScore < opponentScore) { //loss
+                reward = 0.0f;
+            } else reward = 0.5; //draw
+            fprintf(stdout, "Othello: reward: %f\n", reward);
+            
+            *newGame = false;
+        }
         return;
     }
     
@@ -121,6 +146,7 @@ void neuralAgent(NeuralNetwork * __nonnull neural, char * __nonnull * __nonnull 
     // with the TD-learning algorithm
     
     postStateValue = reward + gamma*stateValue;
+    if (postStateValue > 1.0f) postStateValue = 1.0f;
     
     // Use NN to compute the current value of the previous afterstate V(st−1)
     // Adjust the NN by backpropating the error V_new(st−1 ) - V(st−1)

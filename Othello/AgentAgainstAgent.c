@@ -6,6 +6,7 @@
 //  Copyright © 2017 ScienceSoul. All rights reserved.
 //
 
+#include <dirent.h>
 #include "AgentAgainstAgent.h"
 #include "NeuralAgent.h"
 
@@ -18,6 +19,7 @@ void agentAgainstAgent(char * __nonnull * __nonnull board, size_t size, int * __
     int opponentScore = 0;            // Player score
     int player = 0;                   // Player indicator
     bool newGame;
+    bool alreadyTrained = true;
 
     NeuralNetwork *neural = NULL;
     size_t numberOfGames=0;
@@ -94,7 +96,7 @@ void agentAgainstAgent(char * __nonnull * __nonnull board, size_t size, int * __
                 if(numberOfMoves) {
                     // Reset invalid count
                     invalidMoves = 0;
-                    neuralAgent(neural, board, size, moves, postState, ntLayers, numberOfLayers, '@', eta, lambda, gamma, epsilon, &newGame);
+                    neuralAgent(neural, board, size, moves, postState, ntLayers, numberOfLayers, '@', eta, lambda, gamma, epsilon, &newGame, true, &alreadyTrained);
                     noOfMoves++;
                 } else {
                     if(++invalidMoves<2) {
@@ -123,6 +125,9 @@ void agentAgainstAgent(char * __nonnull * __nonnull board, size_t size, int * __
     }
     fprintf(stdout, "Othello: number of neural agent victories during training: %d/%zu\n", numberOfNeuralAgentVictories, numberOfGames);
     fprintf(stdout, "----------------------------------------------------------------------\n");
+    
+    // Store the weights and biases
+    storeWeightsAndBiases((void *)neural, ntLayers, numberOfLayers);
     
     neural->destroy((void *)neural, NULL, false);
     free(neural);

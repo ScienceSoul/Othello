@@ -51,3 +51,6 @@ float crossEntropyCost(float * __nonnull a, float * __nonnull y, size_t n);
 float frobeniusNorm(float * __nonnull * __nonnull mat, size_t m, size_t n);
 
 void  __attribute__((overloadable)) nanToNum(float * __nonnull array, size_t n);
+
+void storeWeightsAndBiases(void * __nonnull neural, int * __nonnull ntLayers, size_t numberOfLayers);
+int loadWeightsAndBiases(void * __nonnull neural, int * __nonnull ntLayers, size_t numberOfLayers);

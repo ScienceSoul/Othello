@@ -123,7 +123,7 @@ void humanAgainstAgent(char * __nonnull * __nonnull board, size_t size, int * __
                     if (strcmp(method, "-minimax") == 0 || strcmp(method, "-evaluation-function") == 0) {
                         agent(board, moves, numberOfMoves, '@', size, method);
                     } else {
-                        neuralAgent(neural, board, size, moves, postState, ntLayers, numberOfLayers, '@', eta, lambda, gamma, epsilon, &newGame);
+                        neuralAgent(neural, board, size, moves, postState, ntLayers, numberOfLayers, '@', eta, lambda, gamma, epsilon, &newGame, false, NULL);
                     }
                     noOfMoves++;
                 } else {
@@ -146,18 +146,22 @@ void humanAgainstAgent(char * __nonnull * __nonnull board, size_t size, int * __
         agentScore = getScore(board, '@', size);
         userScore = getScore(board, 'O', size);
         fprintf(stdout, "----------------------------------------------------------------------\n");
-        fprintf(stdout,"Othello: the final score is:\n");
+        fprintf(stdout,"Othello: The final score is:\n");
         fprintf(stdout,"Othello: Agent %d ------- User %d\n", agentScore, userScore);
         if (userScore < agentScore) {
-            fprintf(stdout,"Othello: You lost, I won!!!\n");
-        } else fprintf(stdout,"Othello: Congratulation!!!\n");
+            fprintf(stdout,"Othello: You lost, I won.\n");
+        } else if (userScore > agentScore) {
+            fprintf(stdout,"Othello: Congratulation.\n");
+        } else fprintf(stdout,"Othello: Draw.\n");
         fprintf(stdout, "----------------------------------------------------------------------\n");
         
         fflush(stdin);
-        printf("Do you want to play again (y/n): ");
-        scanf("%c", &again); // Get y or n
+        fprintf(stdout, "Do you want to play again (y/n): ");
+        fscanf(stdin, " %c", &again); // Get y or n
     
     } while(tolower(again) == 'y'); // Go again after inserting 'y'
+    
+    fprintf(stdout, "Othello: end of game.\n");
     
     if (strcmp(method, "-neural-network") == 0) {
         neural->destroy((void *)neural, NULL, false);

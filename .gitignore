@@ -6,3 +6,5 @@ Othello.xcodeproj/project.xcworkspace/*
 Othello.xcodeproj/xcuserdata/*
 
 *.dat
+
+Training/**/*.dat

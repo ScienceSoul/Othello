@@ -29,7 +29,7 @@ The agent can also use a minimax method to compute its next move. The method com
 
 Note that when a method is explicitly given, it must follow the argument for the board size. Setting it alone is not currently supported. Also the simple position evaluation function can be chosen explicitly with the argument: -evaluation-function.
 
-The program has also an agent which uses a neutral network trained with the TD-Learning algorithm. In order to test this agent and allow it to learn the game, it can play a user defined number of training games against another agent. The opponent agent can use either the evaluation function or the minimax method to play. The program can be run in this mode with the command
+The program has also a neural network playing agent which can be trained with the TD-Learning algorithm. In order to test this agent and allow it to learn the game, it can play a user defined number of training games against another agent. The opponent agent can use either the evaluation function or the minimax method to play. The program can be run in this mode with the command
 
 ./Othello 8 -evaluation-function -play0
 
@@ -37,9 +37,13 @@ or
 
 ./Othello 8 -minimax -play0
 
-Parameters used to control the learning algorithm are defined in ../params/parameters.dat. A human player can play against the neural network agent while the latter will be training with the command
+Parameters used to control the learning algorithm are defined in ../params/parameters.dat. During each training session, weights and biases are saved in the training directory. A human player can then play against the neural network playing agent with the command
 
 ./Othello 8 -neural-network
+
+In this playing mode, the neural network playing agent will load the weights and biases computed from the training.
+
+If another training session is performed, the program will load the existing data and continue the training from there. Once can start from scratch by simply deleting the files in the training directory. Currently it is not possible to have the neural network playing agent play the game against another agent without training at the same time.
 
 Notes:
 
@@ -50,8 +54,7 @@ Notes:
 3) Concerning the TD-Learning agent:
     1) Learning from self-play (both agents share the same neural network) is not currently supported.
     2) Learning from opponent’s moves is not currently supported, the agent only learns from its own moves.
-    3) During learning, the updated weights and biases are currently not persistently stored.
-    4) Actions are chosen using a \epsilon-greedy exploration, however the value of \epsilon is currently kept constant
+    3) Actions are chosen using a \epsilon-greedy exploration, however the value of \epsilon is currently kept constant
        during training
 
 4) An implementation of BLAS/LAPACK is required to compile the program.

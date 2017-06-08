@@ -12,6 +12,8 @@
     #include "cblas_f77.h"
 #endif
 
+#include <dirent.h>
+#include "NeuralNetwork.h"
 #include "Utils.h"
 #include "Memory.h"
 
@@ -208,7 +210,7 @@ void parseArgument(const char * __nonnull argument, const char * __nonnull argum
     int idx = 0;
     *numberOfItems = 0;
     
-    fprintf(stdout, "FeedforwardNT: parsing the %s parameter: %s.\n", argumentName, argument);
+    fprintf(stdout, "FeedforwardNT: parsing the parameter %s : %s.\n", argumentName, argument);
     
     size_t len = strlen(argument);
     if (argument[0] != '{' || argument[len-1] != '}') fatal("FeedforwardNT", "mput argument for network definition should start with <{> and end with <}>.");
@@ -373,4 +375,177 @@ void  __attribute__((overloadable)) nanToNum(float * __nonnull array, size_t n) 
             }
         }
     }
+}
+
+void storeWeightsAndBiases(void * __nonnull neural, int * __nonnull ntLayers, size_t numberOfLayers) {
+    
+    FILE *f1, *f2;
+    DIR *dir = opendir("./training");
+    if (!dir) {
+        f1 = fopen("../training/weights.dat", "w");
+        f2 = fopen("../training/biases.dat", "w");
+    } else {
+        f1 = fopen("./training/weights.dat", "w");
+        f2 = fopen("./training/biases.dat", "w");
+    }
+    if (dir) closedir(dir);
+    fprintf(f1, "{\n");
+    fprintf(f2, "{\n");
+    fprintf(f1, "{");
+    fprintf(f2, "{");
+    for (int i=0; i<numberOfLayers; i++) {
+        fprintf(f1, "%d", ntLayers[i]);
+        
+        fprintf(f2, "%d", ntLayers[i]);
+        if (i != numberOfLayers-1) {
+            fprintf(f1, ",");
+            fprintf(f2, ",");
+        }
+    }
+    fprintf(f1, "}\n");
+    fprintf(f2, "}\n");
+
+    NeuralNetwork *nn = (NeuralNetwork *)neural;
+    
+    weightNode *wNodePt = nn->weightsList;
+    biasNode *bNodePt = nn->biasesList;
+    int k = 1;
+    while (k <= numberOfLayers-1) {
+        for (int i=0; i<ntLayers[k]; i++) {
+            for (int j=0; j<ntLayers[k-1]; j++) {
+                fprintf(f1, "%f\n", wNodePt->w[i][j]);
+            }
+            fprintf(f2, "%f\n", bNodePt->b[i]);
+        }
+        wNodePt = wNodePt->next;
+        bNodePt = bNodePt->next;
+        k++;
+    }
+    fprintf(f1, "}\n");
+    fprintf(f2, "}\n");
+    
+    fclose(f1);
+    fclose(f2);
+}
+
+int loadWeightsAndBiases(void * __nonnull neural, int * __nonnull ntLayers, size_t numberOfLayers) {
+    
+    int fileNtLayers[100];
+    size_t fileNumberOfLayers;
+    
+    // Read weights and biases
+    FILE *f1 = fopen("./training/weights.dat","r");
+    if (!f1) {
+        f1 = fopen("../training/weights.dat","r");
+        if (!f1) {
+            fprintf(stdout, "Othello: trying to load existing weights but file not found.\n");
+            return -1;
+        }
+    }
+    
+    FILE *f2 = fopen("./training/biases.dat","r");
+    if (!f2) {
+        f2 = fopen("../training/biases.dat","r");
+        if (!f2) {
+            fprintf(stdout, "Othello: trying to load existing biases but file not found.\n");
+            return -1;
+        }
+    }
+    
+    NeuralNetwork *nn = (NeuralNetwork *)neural;
+    weightNode *wNodePt = nn->weightsList;
+    biasNode *bNodePt = nn->biasesList;
+    
+    memset(fileNtLayers, 0, sizeof(fileNtLayers));
+    
+    char string[1024];
+    int lineCount = 1;
+    int m, n;
+    m = n = 0;
+    int k = 1;
+    int count = 0;
+    while(1) {
+        fscanf(f1,"%s\n", string);
+        if (string[0] == '}') break;
+        
+        if (lineCount == 1 && string[0] != '{') {
+            fatal("Othello", "syntax error in the file for the input parameters.");
+        } else if (lineCount == 1) {
+            lineCount++;
+            continue;
+        };
+        
+        if (lineCount == 2 && string[0] == '{') {
+            parseArgument(string, "network definition in existing weights file", fileNtLayers, &fileNumberOfLayers);
+            if (fileNumberOfLayers != numberOfLayers) {
+                fatal("Othello", "The number of layers in the neural network from which weights are loaded is not consistent with the number of layers in the currently used network.");
+            }
+            for (int i=0; i<fileNumberOfLayers; i++) {
+                if (ntLayers[i] != fileNtLayers[i]) {
+                    fatal("Othello", "The neural network from which weights are loaded is not consistent with the one currently used by the neural agent.");
+                }
+            }
+            lineCount++;
+            continue;
+        }
+        wNodePt->w[m][n] = strtof(string, NULL);
+        n++;
+        count++;
+        if (n == fileNtLayers[k-1]) {
+            m++;
+            n = 0;
+        }
+        if (count == fileNtLayers[k-1]*fileNtLayers[k]) {
+            count = 0;
+            k++;
+            m = n = 0;
+            wNodePt = wNodePt->next;
+        }
+        lineCount++;
+    }
+    
+    memset(fileNtLayers, 0, sizeof(fileNtLayers));
+    
+    lineCount = 1;
+    m = 0;
+    k = 1;
+    while(1) {
+        fscanf(f2,"%s\n", string);
+        if (string[0] == '}') break;
+        
+        if (lineCount == 1 && string[0] != '{') {
+            fatal("Othello", "syntax error in the file for the input parameters.");
+        } else if (lineCount == 1) {
+            lineCount++;
+            continue;
+        };
+        
+        if (lineCount == 2 && string[0] == '{') {
+            parseArgument(string, "network definition in existing biases file", fileNtLayers, &fileNumberOfLayers);
+            if (fileNumberOfLayers != numberOfLayers) {
+                fatal("Othello", "The number of layers in the neural network from which biases are loaded is not consistent with the number of layers in the currently used network.");
+            }
+            for (int i=0; i<fileNumberOfLayers; i++) {
+                if (ntLayers[i] != fileNtLayers[i]) {
+                    fatal("Othello", "The neural network from which biases are loaded is not consistent with the one currently used by the neural agent.");
+                }
+            }
+            lineCount++;
+            continue;
+        }
+        
+        bNodePt->b[m] = strtof(string, NULL);
+        m++;
+        if (m == fileNtLayers[k]) {
+            k++;
+            m = 0;
+            bNodePt = bNodePt->next;
+        }
+        lineCount++;
+    }
+    
+    fclose(f1);
+    fclose(f2);
+    
+    return 0;
 }

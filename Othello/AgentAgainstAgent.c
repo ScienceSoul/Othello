@@ -99,7 +99,7 @@ void agentAgainstAgent(char * __nonnull * __nonnull board, size_t size, int * __
                     noOfMoves++;
                 } else {
                     if(++invalidMoves<2) {
-                        fprintf(stdout,"\nOthello: meural agent has to pass.\n"); // No valid move
+                        fprintf(stdout,"\nOthello: neural agent has to pass.\n"); // No valid move
                     }
                     else {
                         fprintf(stdout,"\nOthello: neither of agents can go, so the game is over.\n");

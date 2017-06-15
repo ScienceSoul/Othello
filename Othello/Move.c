@@ -268,8 +268,6 @@ void agent(char * __nonnull * __nonnull board, int * __nonnull * __nonnull moves
                 // This score is computed from the best move out of the valid moves
                 // for the player in the current position.
 
-                // First make copies of the board
-                //memcpy(*tempBoard, *board, (size*size)*sizeof(char));
                 pthreadMoveNode *node = threadDataPt[idx];
                 node->row = row;
                 node->col = col;

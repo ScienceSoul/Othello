@@ -14,7 +14,7 @@
     letters to identify squares.
  
 ************************************************/
-void displayBoard(char * __nonnull * __nonnull board, size_t size) {
+void displayBoard(char * _Nonnull * _Nonnull board, size_t size) {
     
     char colLabel = 'a';   // Column label
     

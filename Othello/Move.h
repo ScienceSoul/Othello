@@ -23,15 +23,15 @@ typedef struct pthreadMoveNode {
     char player;
     char opponent;
     size_t size;
-    char * __nonnull * __nonnull tempBoard;
-    char * __nonnull * __nonnull newBoard;
-    int * __nonnull * __nonnull tempMoves;
+    char * _Nonnull * _Nonnull tempBoard;
+    char * _Nonnull * _Nonnull newBoard;
+    int * _Nonnull * _Nonnull tempMoves;
 } pthreadMoveNode;
 
-pthreadMoveNode * __nonnull allocatePthreadMoveNode(void);
+pthreadMoveNode * _Nonnull allocatePthreadMoveNode(void);
 
-void makeMove(char * __nonnull * __nonnull board, int row, int col, char player, size_t size);
-int validMoves(char * __nonnull * __nonnull board, int * __nonnull * __nonnull moves, char player, size_t size);
-int bestMove(char * __nonnull * __nonnull board, char * __nonnull * __nonnull newBoard, int * __nonnull * __nonnull moves, char player, size_t size);
-void agent(char * __nonnull * __nonnull board, int * __nonnull * __nonnull moves, int numberOfMoves, char player, size_t size, char * __nonnull method);
-void * __nullable minimaxSearch(void * __nonnull node);
+void makeMove(char * _Nonnull * _Nonnull board, int row, int col, char player, size_t size);
+int validMoves(char * _Nonnull * _Nonnull board, int * _Nonnull * _Nonnull moves, char player, size_t size);
+int bestMove(char * _Nonnull * _Nonnull board, char * _Nonnull * _Nonnull newBoard, int * _Nonnull * _Nonnull moves, char player, size_t size);
+void agent(char * _Nonnull * _Nonnull board, int * _Nonnull * _Nonnull moves, int numberOfMoves, char player, size_t size, char * _Nonnull method);
+void * _Nullable minimaxSearch(void * _Nonnull node);

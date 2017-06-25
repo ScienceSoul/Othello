@@ -10,7 +10,7 @@
 //
 //  Allocate a node for the possible moves
 //
-pthreadMoveNode * __nonnull allocatePthreadMoveNode(void) {
+pthreadMoveNode * _Nonnull allocatePthreadMoveNode(void) {
     
     pthreadMoveNode *node = (pthreadMoveNode *)malloc(sizeof(pthreadMoveNode));
     *node = (pthreadMoveNode){.row=0, .col=0, .score=0, .size=0, .tempBoard=NULL, .newBoard=NULL, .tempMoves=NULL};
@@ -25,7 +25,7 @@ pthreadMoveNode * __nonnull allocatePthreadMoveNode(void) {
     The argument player identifies the player.
 
 *********************************************************************/
-void makeMove(char * __nonnull * __nonnull board, int row, int col, char player, size_t size) {
+void makeMove(char * _Nonnull * _Nonnull board, int row, int col, char player, size_t size) {
     
     int x = 0;                                   // Row index for searching
     int y = 0;                                   // Column index for searching
@@ -84,7 +84,7 @@ void makeMove(char * __nonnull * __nonnull board, int row, int col, char player,
     Returns valid move count.
  
 *****************************************************************************/
-int validMoves(char * __nonnull * __nonnull board, int * __nonnull * __nonnull moves, char player, size_t size) {
+int validMoves(char * _Nonnull * _Nonnull board, int * _Nonnull * _Nonnull moves, char player, size_t size) {
  
     int x = 0;            // Row index when searching
     int y = 0;            // Column index when searching
@@ -159,7 +159,7 @@ int validMoves(char * __nonnull * __nonnull board, int * __nonnull * __nonnull m
     Return the score for the best move
 
 ************************************************************************/
-int bestMove(char * __nonnull * __nonnull board, char * __nonnull * __nonnull newBoard, int * __nonnull * __nonnull moves, char player, size_t size) {
+int bestMove(char * _Nonnull * _Nonnull board, char * _Nonnull * _Nonnull newBoard, int * _Nonnull * _Nonnull moves, char player, size_t size) {
     
     int score = 0;                       // Best score
     int newScore = 0;                    // Score for current move
@@ -189,7 +189,7 @@ int bestMove(char * __nonnull * __nonnull board, char * __nonnull * __nonnull ne
     return score;
 }
 
-void * __nullable minimaxSearch(void * __nonnull node) {
+void * _Nullable minimaxSearch(void * _Nonnull node) {
     
     pthreadMoveNode *entry = (pthreadMoveNode *)node;
     
@@ -219,7 +219,7 @@ void * __nullable minimaxSearch(void * __nonnull node) {
         -minimax or -evaluation-function
  
 *************************************************************************/
-void agent(char * __nonnull * __nonnull board, int * __nonnull * __nonnull moves, int numberOfMoves, char player, size_t size, char * __nonnull method) {
+void agent(char * _Nonnull * _Nonnull board, int * _Nonnull * _Nonnull moves, int numberOfMoves, char player, size_t size, char * _Nonnull method) {
     
     int bestRow = 0;                             // Best row index
     int bestCol = 0;                             // Best column index

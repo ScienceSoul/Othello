@@ -18,7 +18,7 @@
 #include "Memory.h"
 
 static int formatType;
-void format(char * __nullable head, char * __nullable message, int *iValue, double *dValue);
+void format(char * _Nullable head, char * _Nullable message, int *iValue, double *dValue);
 
 void __attribute__((overloadable)) fatal(char head[]) {
     
@@ -59,7 +59,7 @@ void __attribute__((overloadable)) warning(char head[], char message[], double n
     fprintf(stdout, "%s: %s %f\n", head, message, n);
 }
 
-void format(char * __nullable head, char * __nullable message, int *iValue, double *dValue) {
+void format(char * _Nullable head, char * _Nullable message, int *iValue, double *dValue) {
     
     fprintf(stderr, "##                    A FATAL ERROR occured                   ##\n");
     fprintf(stderr, "##        Please look at the error log for diagnostic         ##\n");
@@ -81,7 +81,7 @@ void format(char * __nullable head, char * __nullable message, int *iValue, doub
     exit(-1);
 }
 
-int loadParameters(int * __nonnull ntLayers, size_t * __nonnull numberOfLayers, float * __nonnull eta, float * __nonnull lambda, float * __nonnull gamma, float * __nonnull epsilon, size_t * __nonnull numberOfGames) {
+int loadParameters(int * _Nonnull ntLayers, size_t * _Nonnull numberOfLayers, float * _Nonnull eta, float * _Nonnull lambda, float * _Nonnull gamma, float * _Nonnull epsilon, size_t * _Nonnull numberOfGames) {
     
     // Very basic parsing of our inpute parameters file.
     // TODO: Needs to change that to something more flexible and with better input validation
@@ -136,7 +136,7 @@ int loadParameters(int * __nonnull ntLayers, size_t * __nonnull numberOfLayers, 
     return 0;
 }
 
-float * __nonnull * __nonnull createTrainigData(float * __nonnull * __nonnull dataSet, size_t start, size_t end, size_t * __nonnull t1, size_t * __nonnull t2, int * __nonnull classifications, size_t numberOfClassifications, int * __nonnull inoutSizes) {
+float * _Nonnull * _Nonnull createTrainigData(float * _Nonnull * _Nonnull dataSet, size_t start, size_t end, size_t * _Nonnull t1, size_t * _Nonnull t2, int * _Nonnull classifications, size_t numberOfClassifications, int * _Nonnull inoutSizes) {
     
     int idx;
     float **trainingData = NULL;
@@ -168,7 +168,7 @@ float * __nonnull * __nonnull createTrainigData(float * __nonnull * __nonnull da
     return trainingData;
 }
 
-float * __nonnull * __nonnull createTestData(float * __nonnull * __nonnull dataSet, size_t len1, size_t len2, size_t start, size_t end, size_t * __nonnull t1, size_t * __nonnull t2) {
+float * _Nonnull * _Nonnull createTestData(float * _Nonnull * _Nonnull dataSet, size_t len1, size_t len2, size_t start, size_t end, size_t * _Nonnull t1, size_t * _Nonnull t2) {
     
     float **testData = floatmatrix(0, end, 0, len2-1);
     *t1 = end;
@@ -184,7 +184,7 @@ float * __nonnull * __nonnull createTestData(float * __nonnull * __nonnull dataS
     return testData;
 }
 
-void shuffle(float * __nonnull * __nonnull array, size_t len1, size_t len2) {
+void shuffle(float * _Nonnull * _Nonnull array, size_t len1, size_t len2) {
     
     float t[len2];
     
@@ -206,7 +206,7 @@ void shuffle(float * __nonnull * __nonnull array, size_t len1, size_t len2) {
     }
 }
 
-void parseArgument(const char * __nonnull argument, const char * __nonnull argumentName, int * __nonnull result, size_t * __nonnull numberOfItems) {
+void parseArgument(const char * _Nonnull argument, const char * _Nonnull argumentName, int * _Nonnull result, size_t * _Nonnull numberOfItems) {
     int idx = 0;
     *numberOfItems = 0;
     
@@ -266,7 +266,7 @@ float randn(float mu, float sigma) {
     return (mu + sigma * (float) X1);
 }
 
-int __attribute__((overloadable)) min_array(int * __nonnull a, size_t num_elements) {
+int __attribute__((overloadable)) min_array(int * _Nonnull a, size_t num_elements) {
     
     int min = INT_MAX;
     for (int i=0; i<num_elements; i++) {
@@ -278,7 +278,7 @@ int __attribute__((overloadable)) min_array(int * __nonnull a, size_t num_elemen
     return min;
 }
 
-int __attribute__((overloadable)) max_array(int * __nonnull a, size_t num_elements)
+int __attribute__((overloadable)) max_array(int * _Nonnull a, size_t num_elements)
 {
     int max = -INT_MAX;
     for (int i=0; i<num_elements; i++) {
@@ -290,7 +290,7 @@ int __attribute__((overloadable)) max_array(int * __nonnull a, size_t num_elemen
     return max;
 }
 
-int __attribute__((overloadable)) argmax(int * __nonnull a, size_t num_elements) {
+int __attribute__((overloadable)) argmax(int * _Nonnull a, size_t num_elements) {
     
     int idx=0, max = -INT_MAX;
     for (int i=0; i<num_elements; i++) {
@@ -303,7 +303,7 @@ int __attribute__((overloadable)) argmax(int * __nonnull a, size_t num_elements)
     return idx;
 }
 
-int __attribute__((overloadable)) argmax(float * __nonnull a, size_t num_elements) {
+int __attribute__((overloadable)) argmax(float * _Nonnull a, size_t num_elements) {
     
     int idx=0;
     float max = -HUGE_VAL;
@@ -330,7 +330,7 @@ float sigmoidPrime(float z) {
 //
 //  Compute the Frobenius norm of a m x n matrix
 //
-float frobeniusNorm(float * __nonnull * __nonnull mat, size_t m, size_t n) {
+float frobeniusNorm(float * _Nonnull * _Nonnull mat, size_t m, size_t n) {
     
     float norm = 0.0f;
     for (int i=0; i<m; i++) {
@@ -342,7 +342,7 @@ float frobeniusNorm(float * __nonnull * __nonnull mat, size_t m, size_t n) {
     return sqrtf(norm);
 }
 
-float crossEntropyCost(float * __nonnull a, float * __nonnull y, size_t n) {
+float crossEntropyCost(float * _Nonnull a, float * _Nonnull y, size_t n) {
     
     float cost = 0.0f;
     float buffer[n];
@@ -362,7 +362,7 @@ float crossEntropyCost(float * __nonnull a, float * __nonnull y, size_t n) {
     return cost;
 }
 
-void  __attribute__((overloadable)) nanToNum(float * __nonnull array, size_t n) {
+void  __attribute__((overloadable)) nanToNum(float * _Nonnull array, size_t n) {
     
     for (int i=0; i<n; i++) {
         if (isnan(array[i]) != 0) array[i] = 0.0f;
@@ -377,7 +377,7 @@ void  __attribute__((overloadable)) nanToNum(float * __nonnull array, size_t n) 
     }
 }
 
-void storeWeightsAndBiases(void * __nonnull neural, int * __nonnull ntLayers, size_t numberOfLayers) {
+void storeWeightsAndBiases(void * _Nonnull neural, int * _Nonnull ntLayers, size_t numberOfLayers) {
     
     FILE *f1, *f2;
     DIR *dir = opendir("./training");
@@ -428,7 +428,7 @@ void storeWeightsAndBiases(void * __nonnull neural, int * __nonnull ntLayers, si
     fclose(f2);
 }
 
-int loadWeightsAndBiases(void * __nonnull neural, int * __nonnull ntLayers, size_t numberOfLayers) {
+int loadWeightsAndBiases(void * _Nonnull neural, int * _Nonnull ntLayers, size_t numberOfLayers) {
     
     int fileNtLayers[100];
     size_t fileNumberOfLayers;

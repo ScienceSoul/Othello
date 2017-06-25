@@ -15,4 +15,4 @@
 
 #endif /* HumanAgainstAgent_h */
 
-void humanAgainstAgent(char * __nonnull * __nonnull board, size_t size, int * __nonnull * __nonnull moves, char * __nonnull  method);
+void humanAgainstAgent(char * _Nonnull * _Nonnull board, size_t size, int * _Nonnull * _Nonnull moves, char * _Nonnull  method);

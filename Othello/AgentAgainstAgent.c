@@ -9,7 +9,7 @@
 #include "AgentAgainstAgent.h"
 #include "NeuralAgent.h"
 
-void agentAgainstAgent(char * __nonnull * __nonnull board, size_t size, int * __nonnull * __nonnull moves, char * __nonnull  method) {
+void agentAgainstAgent(char * _Nonnull * _Nonnull board, size_t size, int * _Nonnull * _Nonnull moves, char * _Nonnull  method) {
     
     int noOfGames = 0;                // Number of games
     int noOfMoves = 0;                // Count of moves

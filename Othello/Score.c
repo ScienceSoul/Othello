@@ -27,7 +27,7 @@ short evaluation_function_8x8[8][8] =
     Returns the score.
 
 *********************************************************************/
-int scoreMove(char * __nonnull * __nonnull board, char player, size_t size) {
+int scoreMove(char * _Nonnull * _Nonnull board, char player, size_t size) {
     
     int score = 0;                              // Score for current position
     char opponent = player == 'O' ? '@' : 'O';  // Identify opponent
@@ -54,7 +54,7 @@ int scoreMoveWithEvaluationFunction(int row, int col, size_t size) {
     Returns the score.
  
 *********************************************************************/
-int getScore(char * __nonnull * __nonnull board, char player, size_t size) {
+int getScore(char * _Nonnull * _Nonnull board, char player, size_t size) {
     
     int score = 0;
     

@@ -17,81 +17,81 @@
 
 typedef struct weightNode {
     size_t m, n;
-    float * __nullable * __nullable w;
-    struct weightNode * __nullable next;
-    struct weightNode * __nullable previous;
+    float * _Nullable * _Nullable w;
+    struct weightNode * _Nullable next;
+    struct weightNode * _Nullable previous;
 } weightNode;
 
 typedef struct biasNode {
     size_t n;
-    float * __nullable b;
-    struct biasNode * __nullable next;
-    struct biasNode * __nullable previous;
+    float * _Nullable b;
+    struct biasNode * _Nullable next;
+    struct biasNode * _Nullable previous;
 } biasNode;
 
 typedef struct activationNode {
     size_t n;
-    float * __nullable a;
-    struct activationNode * __nullable next;
-    struct activationNode * __nullable previous;
+    float * _Nullable a;
+    struct activationNode * _Nullable next;
+    struct activationNode * _Nullable previous;
 } activationNode;
 
 typedef struct zNode {
     size_t n;
-    float * __nullable z;
-    struct zNode * __nullable next;
-    struct zNode * __nullable previous;
+    float * _Nullable z;
+    struct zNode * _Nullable next;
+    struct zNode * _Nullable previous;
 } zNode;
 
 typedef struct dcdwNode {
     size_t m, n;
-    float * __nullable * __nullable dcdw;
-    struct dcdwNode * __nullable next;
-    struct dcdwNode * __nullable previous;
+    float * _Nullable * _Nullable dcdw;
+    struct dcdwNode * _Nullable next;
+    struct dcdwNode * _Nullable previous;
 } dcdwNode;
 
 typedef struct dcdbNode {
     size_t n;
-    float * __nullable dcdb;
-    struct dcdbNode * __nullable next;
-    struct dcdbNode * __nullable previous;
+    float * _Nullable dcdb;
+    struct dcdbNode * _Nullable next;
+    struct dcdbNode * _Nullable previous;
 } dcdbNode;
 
 typedef struct pthreadBatchNode {
     int index;
     int max;
-    float * __nullable * __nullable batch;
-    struct weightNode * __nullable weightsList;
-    struct biasNode * __nullable biasesList;
-    struct activationNode * __nullable activationsList;
-    struct zNode * __nullable zsList;
-    struct dcdwNode * __nullable dcdwsList;
-    struct dcdbNode * __nullable dcdbsList;
-    int * __nonnull inoutSizes;
+    float * _Nullable * _Nullable batch;
+    struct weightNode * _Nullable weightsList;
+    struct biasNode * _Nullable biasesList;
+    struct activationNode * _Nullable activationsList;
+    struct zNode * _Nullable zsList;
+    struct dcdwNode * _Nullable dcdwsList;
+    struct dcdbNode * _Nullable dcdbsList;
+    int * _Nonnull inoutSizes;
 } pthreadBatchNode;
 
 typedef struct NeuralNetwork {
-    weightNode * __nullable weightsList;
-    biasNode * __nullable biasesList;
-    activationNode * __nullable activationsList;
-    zNode * __nullable zsList;
-    dcdwNode * __nullable dcdwsList;
-    dcdbNode * __nullable dcdbsList;
+    weightNode * _Nullable weightsList;
+    biasNode * _Nullable biasesList;
+    activationNode * _Nullable activationsList;
+    zNode * _Nullable zsList;
+    dcdwNode * _Nullable dcdwsList;
+    dcdbNode * _Nullable dcdbsList;
     
-    pthreadBatchNode * __nullable * __nullable threadDataPt;
-    pthread_t __nullable * __nullable threadTID;
+    pthreadBatchNode * _Nullable * _Nullable threadDataPt;
+    pthread_t _Nullable * _Nullable threadTID;
     
-    void (* __nullable create)(void * __nonnull self, int * __nonnull ntLayers, size_t numberOfLayers, int * __nullable miniBatchSize, bool pthread);
-    void (* __nullable destroy)(void * __nonnull self, int * __nullable miniBatchSize, bool pthread);
+    void (* _Nullable create)(void * _Nonnull self, int * _Nonnull ntLayers, size_t numberOfLayers, int * _Nullable miniBatchSize, bool pthread);
+    void (* _Nullable destroy)(void * _Nonnull self, int * _Nullable miniBatchSize, bool pthread);
     
-    void (* __nullable SDG)(void * __nonnull self, float * __nonnull * __nonnull trainingData, float * __nullable * __nullable testData, size_t tr1, size_t tr2, size_t * __nullable ts1, size_t * __nullable ts2, int * __nonnull ntLayers, size_t numberOfLayers, int * __nonnull inoutSizes, int * __nullable classifications, int epochs, int miniBatchSize, float eta, float lambda, bool pthread, bool * __nullable showTotalCost);
-    void (* __nullable updateMiniBatch)(void * __nonnull self, float * __nonnull * __nonnull miniBatch, int miniBatchSize, int * __nonnull ntLayers, size_t numberOfLayers, size_t tr1, float eta, float lambda, bool * __nullable pthread);
-    void(* __nullable updateWeightsBiases)(void * __nonnull self, int miniBatchSize, size_t tr1, float eta, float lambda);
-    void (* __nullable accumulateFromThreads)(void * __nonnull self, int miniBatchSize, bool pthread);
-    void * __nullable (* __nullable backpropagation)(void * __nonnull node);
-    void (* __nonnull feedforward)(void * __nonnull self);
-    int (* __nullable evaluate)(void * __nonnull self, float * __nonnull * __nonnull testData, size_t ts1, int * __nonnull inoutSizes);
-    float (* __nullable totalCost)(void * __nonnull self, float * __nonnull * __nonnull data, size_t m, int * __nonnull inoutSizes, int * __nullable classifications, float lambda, bool convert);
+    void (* _Nullable SDG)(void * _Nonnull self, float * _Nonnull * _Nonnull trainingData, float * _Nullable * _Nullable testData, size_t tr1, size_t tr2, size_t * _Nullable ts1, size_t * _Nullable ts2, int * _Nonnull ntLayers, size_t numberOfLayers, int * _Nonnull inoutSizes, int * _Nullable classifications, int epochs, int miniBatchSize, float eta, float lambda, bool pthread, bool * _Nullable showTotalCost);
+    void (* _Nullable updateMiniBatch)(void * _Nonnull self, float * _Nonnull * _Nonnull miniBatch, int miniBatchSize, int * _Nonnull ntLayers, size_t numberOfLayers, size_t tr1, float eta, float lambda, bool * _Nullable pthread);
+    void(* _Nullable updateWeightsBiases)(void * _Nonnull self, int miniBatchSize, size_t tr1, float eta, float lambda);
+    void (* _Nullable accumulateFromThreads)(void * _Nonnull self, int miniBatchSize, bool pthread);
+    void * _Nullable (* _Nullable backpropagation)(void * _Nonnull node);
+    void (* _Nonnull feedforward)(void * _Nonnull self);
+    int (* _Nullable evaluate)(void * _Nonnull self, float * _Nonnull * _Nonnull testData, size_t ts1, int * _Nonnull inoutSizes);
+    float (* _Nullable totalCost)(void * _Nonnull self, float * _Nonnull * _Nonnull data, size_t m, int * _Nonnull inoutSizes, int * _Nullable classifications, float lambda, bool convert);
 } NeuralNetwork;
 
-NeuralNetwork * __nonnull allocateNeuralNetwork(void);
+NeuralNetwork * _Nonnull allocateNeuralNetwork(void);

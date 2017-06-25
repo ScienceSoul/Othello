@@ -15,14 +15,14 @@
 
 #endif /* Memory_h */
 
-int * __nonnull intvec(long nl, long nh);
-float * __nonnull floatvec(long nl, long nh);
-int * __nonnull * __nonnull intmatrix(long nrl, long nrh, long ncl, long nch);
-float * __nonnull * __nonnull floatmatrix(long nrl, long nrh, long ncl, long nch);
-char * __nonnull * __nonnull charmatrix(long nrl, long nrh, long ncl, long nch);
+int * _Nonnull intvec(long nl, long nh);
+float * _Nonnull floatvec(long nl, long nh);
+int * _Nonnull * _Nonnull intmatrix(long nrl, long nrh, long ncl, long nch);
+float * _Nonnull * _Nonnull floatmatrix(long nrl, long nrh, long ncl, long nch);
+char * _Nonnull * _Nonnull charmatrix(long nrl, long nrh, long ncl, long nch);
 
-void free_ivector(int * __nonnull v, long nl, long nh);
-void free_fvector(float * __nonnull v, long nl, long nh);
-void free_imatrix(int * __nonnull * __nonnull m, long nrl, long nrh, long ncl, long nch);
-void free_fmatrix(float * __nonnull * __nonnull m, long nrl, long nrh, long ncl, long nch);
-void free_cmatrix(char * __nonnull * __nonnull m, long nrl, long nrh, long ncl, long nch);
+void free_ivector(int * _Nonnull v, long nl, long nh);
+void free_fvector(float * _Nonnull v, long nl, long nh);
+void free_imatrix(int * _Nonnull * _Nonnull m, long nrl, long nrh, long ncl, long nch);
+void free_fmatrix(float * _Nonnull * _Nonnull m, long nrl, long nrh, long ncl, long nch);
+void free_cmatrix(char * _Nonnull * _Nonnull m, long nrl, long nrh, long ncl, long nch);

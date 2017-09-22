@@ -1,6 +1,6 @@
 //
 //  NeuralNetwork.h
-//  FeedforwardNT
+//  Othello
 //
 //  Created by Seddik hakime on 31/05/2017.
 //

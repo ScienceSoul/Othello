@@ -31,13 +31,13 @@ void agentAgainstAgent(char * _Nonnull * _Nonnull board, size_t size, int * _Non
     
     memset(ntLayers, 0, sizeof(ntLayers));
     if (loadParameters(ntLayers, &numberOfLayers, &eta, &lambda, &gamma, &epsilon, &numberOfGames) != 0) {
-        fatal("Othello", "failure reading input parameters.");
+        fatal(PROGRAM_NAME, "failure reading input parameters.");
     }
     if (ntLayers[0] != (size*size)) {
-        fatal("Othello", "error in the network parameters. The number of input nodes should be equal to the board dimension row x col.");
+        fatal(PROGRAM_NAME, "error in the network parameters. The number of input nodes should be equal to the board dimension row x col.");
     }
     if (ntLayers[numberOfLayers-1] != 1) {
-        fatal("Othello", "error in the network parameters. The number of output nodes should be one.");
+        fatal(PROGRAM_NAME, "error in the network parameters. The number of output nodes should be one.");
     }
 
     neural->create((void *)neural, ntLayers, numberOfLayers, NULL, false);
@@ -74,7 +74,7 @@ void agentAgainstAgent(char * _Nonnull * _Nonnull board, size_t size, int * _Non
         do {
 
             displayBoard(board, size);
-            fprintf(stdout, "Othello: number of moves so far: %d\n", noOfMoves);
+            fprintf(stdout, "%s: number of moves so far: %d\n", PROGRAM_NAME, noOfMoves);
             
             if(player++ % 2) { // It is the agent turn
                 int numberOfMoves = validMoves(board, moves, 'O', size);
@@ -83,10 +83,10 @@ void agentAgainstAgent(char * _Nonnull * _Nonnull board, size_t size, int * _Non
                     noOfMoves++;
                 } else {
                     if(++invalidMoves<2) {
-                        fprintf(stdout,"\nOthello: opponent agent has to pass.\n"); // No valid move
+                        fprintf(stdout,"\%s: opponent agent has to pass.\n", PROGRAM_NAME); // No valid move
                     }
                     else {
-                        fprintf(stdout,"\nOthello: neither of agents can go, so the game is over.\n");
+                        fprintf(stdout,"\%s: neither of agents can go, so the game is over.\n", PROGRAM_NAME);
                         break;
                     }
                 }
@@ -99,10 +99,10 @@ void agentAgainstAgent(char * _Nonnull * _Nonnull board, size_t size, int * _Non
                     noOfMoves++;
                 } else {
                     if(++invalidMoves<2) {
-                        fprintf(stdout,"\nOthello: neural agent has to pass.\n"); // No valid move
+                        fprintf(stdout,"\%s: neural agent has to pass.\n", PROGRAM_NAME); // No valid move
                     }
                     else {
-                        fprintf(stdout,"\nOthello: neither of agents can go, so the game is over.\n");
+                        fprintf(stdout,"\%s: neither of agents can go, so the game is over.\n", PROGRAM_NAME);
                         break;
                     }
                 }
@@ -118,11 +118,11 @@ void agentAgainstAgent(char * _Nonnull * _Nonnull board, size_t size, int * _Non
         opponentScore = getScore(board, 'O', size);
         if (agentScore > opponentScore) numberOfNeuralAgentVictories++;
         fprintf(stdout, "----------------------------------------------------------------------\n");
-        fprintf(stdout,"Othello: the final score is:\n");
-        fprintf(stdout,"Othello: Neural agent %d ------- Agent %d\n", agentScore, opponentScore);
+        fprintf(stdout,"%s: the final score is:\n", PROGRAM_NAME);
+        fprintf(stdout,"%s: Neural agent %d ------- Agent %d\n", PROGRAM_NAME, agentScore, opponentScore);
         fprintf(stdout, "----------------------------------------------------------------------\n");
     }
-    fprintf(stdout, "Othello: number of neural agent victories during training: %d/%zu\n", numberOfNeuralAgentVictories, numberOfGames);
+    fprintf(stdout, "%s: number of neural agent victories during training: %d/%zu\n", PROGRAM_NAME, numberOfNeuralAgentVictories, numberOfGames);
     fprintf(stdout, "----------------------------------------------------------------------\n");
     
     // Store the weights and biases

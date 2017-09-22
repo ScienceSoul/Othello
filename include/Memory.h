@@ -1,6 +1,6 @@
 //
 //  memory.h
-//  FeedforwardNT
+//  Othello
 //
 //  Created by Seddik hakime on 21/05/2017.
 //

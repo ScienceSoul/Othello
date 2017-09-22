@@ -42,7 +42,7 @@ int main(int argc, const char * argv[]) {
         memcpy(method, argv[2], strlen(argv[2])*sizeof(char));
         if (strcmp(method, "-minimax") != 0 && strcmp(method, "-evaluation-function") != 0 &&
             strcmp(method, "-neural-network") != 0) {
-            fatal("Othello", "unknown method to compute the agent moves.");
+            fatal(PROGRAM_NAME, "unknown method to compute the agent moves.");
         }
     } else if (argc == 4) {
         size = atoi(argv[1]);
@@ -50,24 +50,24 @@ int main(int argc, const char * argv[]) {
         memcpy(method, argv[2], strlen(argv[2])*sizeof(char));
         if (strcmp(method, "-minimax") != 0 && strcmp(method, "-evaluation-function") != 0 &&
             strcmp(method, "-neural-network") != 0) {
-            fatal("Othello", "unknown method to compute the agent moves.");
+            fatal(PROGRAM_NAME, "unknown method to compute the agent moves.");
         }
         
         memcpy(playMode, argv[3], strlen(argv[3])*sizeof(char));
         if (strcmp(playMode, "-play0") != 0 && strcmp(playMode, "-play1") != 0) {
-            fatal("Othello", "unknown play mode.");
+            fatal(PROGRAM_NAME, "unknown play mode.");
         }
     } else if (argc > 4) {
-        fatal("Othello", " number of input argument must be at most 3.");
+        fatal(PROGRAM_NAME, " number of input argument must be at most 3.");
     }
     
     if (strcmp(playMode, "-play0") == 0 && strcmp(method, "-neural-network") == 0) {
-        fatal("Othello", "Can't chose the agent playing method <-neural-network> when the game mode is <-play1>.");
+        fatal(PROGRAM_NAME, "Can't chose the agent playing method <-neural-network> when the game mode is <-play1>.");
     }
     
     // Board size - must be even
     if (size % 2 != 0) {
-        fatal("Othello", "board size should be a multiple of 2.");
+        fatal(PROGRAM_NAME, "board size should be a multiple of 2.");
     }
     
     // The board
@@ -78,21 +78,21 @@ int main(int argc, const char * argv[]) {
     int **moves = intmatrix(0, size-1, 0, size-1);
     memset(*moves, 0, (size*size)*sizeof(int));
 
-    fprintf(stdout,"\nOthello: Othello Game. Starting now...\n\n");
+    fprintf(stdout,"\%s: Othello Game. Starting now...\n\n", PROGRAM_NAME);
     
     if (strcmp(playMode, "-play0") == 0) {
-        fprintf(stdout,"Othello: two agents players game.\n");
-        fprintf(stdout,"Othello: Agent - (O). Neural agent - (@).\n");
-        fprintf(stdout,"Othello: opponent agent playing method: %s.\n", method);
+        fprintf(stdout,"%s: two agents players game.\n", PROGRAM_NAME);
+        fprintf(stdout,"%s: Agent - (O). Neural agent - (@).\n", PROGRAM_NAME);
+        fprintf(stdout,"%s: opponent agent playing method: %s.\n", method, PROGRAM_NAME);
         agentAgainstAgent(board, size, moves, method);
         
     } else {
-        fprintf(stdout,"Othello: You will play first.\n");
-        fprintf(stdout,"Othello: You will be white - (O). I will be black - (@).\n");
-        fprintf(stdout,"Othello: Select a square for your move by typing a digit for the row\n "
-                "        and a letter for the column with no spaces between.\n");
-        fprintf(stdout,"Othello: Agent playing method: %s.\n", method);
-        fprintf(stdout,"\nOthello: Press Enter to start.\n");
+        fprintf(stdout,"%s: You will play first.\n", PROGRAM_NAME);
+        fprintf(stdout,"%s: You will be white - (O). I will be black - (@).\n", PROGRAM_NAME);
+        fprintf(stdout,"%s: Select a square for your move by typing a digit for the row\n "
+                "        and a letter for the column with no spaces between.\n", PROGRAM_NAME);
+        fprintf(stdout,"%s: Agent playing method: %s.\n", PROGRAM_NAME, method);
+        fprintf(stdout,"\%s: Press Enter to start.\n", PROGRAM_NAME);
         fscanf(stdin, "%c", &retr);
         humanAgainstAgent(board, size, moves, method);
     }

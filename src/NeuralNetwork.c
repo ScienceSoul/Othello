@@ -1,6 +1,6 @@
 //
 //  NeuralNetwork.c
-//  FeedforwardNT
+//  Othello
 //
 //  Created by Seddik hakime on 31/05/2017.
 //
@@ -360,7 +360,7 @@ void create(void * _Nonnull self, int * _Nonnull ntLayers, size_t numberOfLayers
     
     if (pthread) {
         if (miniBatchSize == NULL) {
-            fatal("FeedforwardNT", "mini batch size is NULL in network creation.");
+            fatal(PROGRAM_NAME, "mini batch size is NULL in network creation.");
         }
         nn->threadDataPt = (pthreadBatchNode **)malloc(*miniBatchSize * sizeof(pthreadBatchNode *));
         nn->threadTID = (pthread_t *)malloc(*miniBatchSize * sizeof(pthread_t));
@@ -399,7 +399,7 @@ void destroy(void * _Nonnull self, int * _Nullable miniBatchSize, bool pthread) 
     
     if (pthread) {
         if (miniBatchSize == NULL) {
-            fatal("FeedforwardNT", "mini batch size is NULL in network destruction.");
+            fatal(PROGRAM_NAME, "mini batch size is NULL in network destruction.");
         }
         for (int i=0; i<*miniBatchSize; i++) {
             pthreadBatchNode *node = nn->threadDataPt[i];
@@ -623,7 +623,7 @@ void SDG(void * _Nonnull self, float * _Nonnull * _Nonnull trainingData, float *
         delta = 0;
         shuffle(trainingData, tr1, tr2);
         
-        fprintf(stdout, "FeedforwardNT: Epoch {%d/%d}:\n", k, epochs);
+        fprintf(stdout, "%s: Epoch {%d/%d}:\n", PROGRAM_NAME, k, epochs);
         double rt = realtime();
         for (int l=1; l<=tr1/miniBatchSize; l++) {
             memcpy(*miniBatch, *trainingData+delta, (miniBatchSize*tr2)*sizeof(float));
@@ -635,22 +635,22 @@ void SDG(void * _Nonnull self, float * _Nonnull * _Nonnull trainingData, float *
             delta = delta + ((int)miniBatchSize*(int)tr2);
         }
         rt = realtime() -  rt;
-        fprintf(stdout, "FeedforwardNT: time to complete all training data set (s): %f\n", rt);
+        fprintf(stdout, "%s: time to complete all training data set (s): %f\n", PROGRAM_NAME, rt);
         
         if (testData != NULL) {
-            fprintf(stdout, "FeedforwardNT: Epoch {%d/%d}: testing network with {%zu} inputs:\n", k, epochs, *ts1);
+            fprintf(stdout, "%s: Epoch {%d/%d}: testing network with {%zu} inputs:\n", PROGRAM_NAME, k, epochs, *ts1);
             int result = nn->evaluate(self, testData, *ts1, inoutSizes);
-            fprintf(stdout, "FeedforwardNT: Epoch {%d/%d}: {%d} / {%zu}.\n", k, epochs, result, *ts1);
+            fprintf(stdout, "%s: Epoch {%d/%d}: {%d} / {%zu}.\n", PROGRAM_NAME, k, epochs, result, *ts1);
         }
         
         if (showTotalCost != NULL) {
             if (*showTotalCost == true) {
                 float cost = nn->totalCost(self, trainingData, tr1, inoutSizes, NULL, lambda, false);
-                fprintf(stdout, "FeedforwardNT: cost on training data: {%f}\n", cost);
+                fprintf(stdout, "%s: cost on training data: {%f}\n", PROGRAM_NAME, cost);
                 
                 if (testData != NULL) {
                     cost = nn->totalCost(self, testData, *ts1, inoutSizes, classifications, lambda, true);
-                    fprintf(stdout, "FeedforwardNT: cost on test data: {%f}\n", cost);
+                    fprintf(stdout, "%s: cost on test data: {%f}\n", PROGRAM_NAME, cost);
                 }
             }
         }
@@ -704,7 +704,7 @@ void updateMiniBatch(void * _Nonnull self, float * _Nonnull * _Nonnull miniBatch
         nn->accumulateFromThreads((void *)nn, miniBatchSize, multiThreadedBatch);
     }
     rt = realtime() - rt;
-    fprintf(stdout, "FeedforwardNT: time to complete a single mini-batch (s): %f\n", rt);
+    fprintf(stdout, "%s: time to complete a single mini-batch (s): %f\n", PROGRAM_NAME, rt);
     
     
     nn->updateWeightsBiases((void *)nn, miniBatchSize, tr1, eta, lambda);

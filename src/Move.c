@@ -278,7 +278,7 @@ void agent(char * _Nonnull * _Nonnull board, int * _Nonnull * _Nonnull moves, in
                 idx++;
             } else if (strcmp(method, "-evaluation-function") == 0) {
                 if (size != 8) {
-                    fatal("Othello", "valuation funtion for board smaller than 8 x 8 not supported yet.");
+                    fatal(PROGRAM_NAME, "valuation funtion for board smaller than 8 x 8 not supported yet.");
                 }
                 newScore = scoreMoveWithEvaluationFunction(row, col, size);
                 if (newScore > score) {

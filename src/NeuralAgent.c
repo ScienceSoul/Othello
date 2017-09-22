@@ -74,14 +74,14 @@ void neuralAgent(NeuralNetwork * _Nonnull neural, char * _Nonnull * _Nonnull boa
     
     if (exploration == false || alreadyTrained == true) {
         if (loadedData == false) {
-            fprintf(stdout, "Othello: load existing weights and biases.\n");
+            fprintf(stdout, "%s: load existing weights and biases.\n", PROGRAM_NAME);
             if (alreadyTrained == true) {
                 if (loadWeightsAndBiases((void *)neural, ntLayers, numberOfLayers) != 0) {
-                    fprintf(stdout, "Othello: neural network training data not found, will train from scratch.\n");
+                    fprintf(stdout, "%s: neural network training data not found, will train from scratch.\n", PROGRAM_NAME);
                 }
             } else {
                 if (loadWeightsAndBiases((void *)neural, ntLayers, numberOfLayers) != 0) {
-                    fatal("Othello", "failure reading weights and biases.");
+                    fatal(PROGRAM_NAME, "failure reading weights and biases.");
                 }
             }
             loadedData = true;
@@ -113,7 +113,7 @@ void neuralAgent(NeuralNetwork * _Nonnull neural, char * _Nonnull * _Nonnull boa
             } else if (agentScore < opponentScore) { //loss
                 reward = 0.0f;
             } else reward = 0.5; //draw
-            fprintf(stdout, "Othello: reward: %f\n", reward);
+            fprintf(stdout, "%s: reward: %f\n", PROGRAM_NAME, reward);
             
             *newGame = false;
         }
@@ -180,7 +180,7 @@ void neuralAgent(NeuralNetwork * _Nonnull neural, char * _Nonnull * _Nonnull boa
     } else if (agentScore < opponentScore) { //loss
         reward = 0.0f;
     } else reward = 0.5; //draw
-    fprintf(stdout, "Othello: reward: %f\n", reward);
+    fprintf(stdout, "%s: reward: %f\n", PROGRAM_NAME, reward);
     
     free_cmatrix(tempBoard, 0, size-1, 0, size-1);
     free_fmatrix(training, 0, 0, 0, ((size*size)+1)-1);

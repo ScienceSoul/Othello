@@ -1,6 +1,6 @@
 //
 //  Utils.c
-//  FeedforwardNT
+//  Othello
 //
 //  Created by Seddik hakime on 21/05/2017.
 //
@@ -83,7 +83,7 @@ void format(char * _Nullable head, char * _Nullable message, int *iValue, double
 
 int loadParameters(int * _Nonnull ntLayers, size_t * _Nonnull numberOfLayers, float * _Nonnull eta, float * _Nonnull lambda, float * _Nonnull gamma, float * _Nonnull epsilon, size_t * _Nonnull numberOfGames) {
     
-    // Very basic parsing of our inpute parameters file.
+    // Very basic parsing of input parameters file.
     // TODO: Needs to change that to something more flexible and with better input validation
     
     FILE *f1 = fopen("parameters.dat","r");
@@ -92,7 +92,7 @@ int loadParameters(int * _Nonnull ntLayers, size_t * _Nonnull numberOfLayers, fl
         if(!f1) {
             f1 = fopen("../params/parameters.dat","r");
              if(!f1) {
-                 fprintf(stdout,"FeedforwardNT: can't find the input parameters file.\n");
+                 fprintf(stdout,"%s: can't find the input parameters file.\n", PROGRAM_NAME);
                  return -1;
              }
         }
@@ -104,7 +104,7 @@ int loadParameters(int * _Nonnull ntLayers, size_t * _Nonnull numberOfLayers, fl
         fscanf(f1,"%s\n", string);
         
         if (lineCount == 1 && string[0] != '{') {
-            fatal("FeedforwardNT", "syntax error in the file for the input parameters.");
+            fatal(PROGRAM_NAME, "syntax error in the file for the input parameters.");
         } else if (lineCount == 1) {
             lineCount++;
             continue;
@@ -145,7 +145,7 @@ float * _Nonnull * _Nonnull createTrainigData(float * _Nonnull * _Nonnull dataSe
     *t2 = inoutSizes[0]+inoutSizes[1];
     
     if (inoutSizes[1] != numberOfClassifications) {
-        fatal("FeedforwardNT", "the number of classifications should be equal to the number of activations.");
+        fatal(PROGRAM_NAME, "the number of classifications should be equal to the number of activations.");
     }
     
     for (int i=0; i<end; i++) {
@@ -210,19 +210,19 @@ void parseArgument(const char * _Nonnull argument, const char * _Nonnull argumen
     int idx = 0;
     *numberOfItems = 0;
     
-    fprintf(stdout, "FeedforwardNT: parsing the parameter %s : %s.\n", argumentName, argument);
+    fprintf(stdout, "%s: parsing the parameter %s : %s.\n", PROGRAM_NAME, argumentName, argument);
     
     size_t len = strlen(argument);
-    if (argument[0] != '{' || argument[len-1] != '}') fatal("FeedforwardNT", "mput argument for network definition should start with <{> and end with <}>.");
+    if (argument[0] != '{' || argument[len-1] != '}') fatal(PROGRAM_NAME, "input argument for network definition should start with <{> and end with <}>.");
     
     while (argument[idx] != '}') {
         if (argument[idx] == '{') {
-            if (argument[idx +1] == ',' || argument[idx +1] == '{') fatal("FeedforwardNT", "syntax error <{,> or <{{> in imput argument for network definition.");
+            if (argument[idx+1] == ',' || argument[idx+1] == '{') fatal(PROGRAM_NAME, "syntax error <{,> or <{{> in imput argument for network definition.");
             idx++;
             continue;
         }
         if (argument[idx] == ',') {
-            if (argument[idx +1] == '}' || argument[idx +1] == ',') fatal("FeedforwardNT", "syntax error <,}> or <,,> in imput argument for network definition.");
+            if (argument[idx+1] == '}' || argument[idx+1] == ',') fatal(PROGRAM_NAME, "syntax error <,}> or <,,> in imput argument for network definition.");
             (*numberOfItems)++;
             idx++;
             continue;
@@ -438,7 +438,7 @@ int loadWeightsAndBiases(void * _Nonnull neural, int * _Nonnull ntLayers, size_t
     if (!f1) {
         f1 = fopen("../training/weights.dat","r");
         if (!f1) {
-            fprintf(stdout, "Othello: trying to load existing weights but file not found.\n");
+            fprintf(stdout, "%s: trying to load existing weights but file not found.\n", PROGRAM_NAME);
             return -1;
         }
     }
@@ -447,7 +447,7 @@ int loadWeightsAndBiases(void * _Nonnull neural, int * _Nonnull ntLayers, size_t
     if (!f2) {
         f2 = fopen("../training/biases.dat","r");
         if (!f2) {
-            fprintf(stdout, "Othello: trying to load existing biases but file not found.\n");
+            fprintf(stdout, "%s: trying to load existing biases but file not found.\n", PROGRAM_NAME);
             return -1;
         }
     }
@@ -469,7 +469,7 @@ int loadWeightsAndBiases(void * _Nonnull neural, int * _Nonnull ntLayers, size_t
         if (string[0] == '}') break;
         
         if (lineCount == 1 && string[0] != '{') {
-            fatal("Othello", "syntax error in the file for the input parameters.");
+            fatal(PROGRAM_NAME, "syntax error in the file for the input parameters.");
         } else if (lineCount == 1) {
             lineCount++;
             continue;
@@ -478,11 +478,11 @@ int loadWeightsAndBiases(void * _Nonnull neural, int * _Nonnull ntLayers, size_t
         if (lineCount == 2 && string[0] == '{') {
             parseArgument(string, "network definition in existing weights file", fileNtLayers, &fileNumberOfLayers);
             if (fileNumberOfLayers != numberOfLayers) {
-                fatal("Othello", "The number of layers in the neural network from which weights are loaded is not consistent with the number of layers in the currently used network.");
+                fatal(PROGRAM_NAME, "The number of layers in the neural network from which weights are loaded is not consistent with the number of layers in the currently used network.");
             }
             for (int i=0; i<fileNumberOfLayers; i++) {
                 if (ntLayers[i] != fileNtLayers[i]) {
-                    fatal("Othello", "The neural network from which weights are loaded is not consistent with the one currently used by the neural agent.");
+                    fatal(PROGRAM_NAME, "The neural network from which weights are loaded is not consistent with the one currently used by the neural agent.");
                 }
             }
             lineCount++;
@@ -514,7 +514,7 @@ int loadWeightsAndBiases(void * _Nonnull neural, int * _Nonnull ntLayers, size_t
         if (string[0] == '}') break;
         
         if (lineCount == 1 && string[0] != '{') {
-            fatal("Othello", "syntax error in the file for the input parameters.");
+            fatal(PROGRAM_NAME, "syntax error in the file for the input parameters.");
         } else if (lineCount == 1) {
             lineCount++;
             continue;
@@ -523,11 +523,11 @@ int loadWeightsAndBiases(void * _Nonnull neural, int * _Nonnull ntLayers, size_t
         if (lineCount == 2 && string[0] == '{') {
             parseArgument(string, "network definition in existing biases file", fileNtLayers, &fileNumberOfLayers);
             if (fileNumberOfLayers != numberOfLayers) {
-                fatal("Othello", "The number of layers in the neural network from which biases are loaded is not consistent with the number of layers in the currently used network.");
+                fatal(PROGRAM_NAME, "The number of layers in the neural network from which biases are loaded is not consistent with the number of layers in the currently used network.");
             }
             for (int i=0; i<fileNumberOfLayers; i++) {
                 if (ntLayers[i] != fileNtLayers[i]) {
-                    fatal("Othello", "The neural network from which biases are loaded is not consistent with the one currently used by the neural agent.");
+                    fatal(PROGRAM_NAME, "The neural network from which biases are loaded is not consistent with the one currently used by the neural agent.");
                 }
             }
             lineCount++;

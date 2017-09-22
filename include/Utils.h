@@ -1,6 +1,6 @@
 //
 //  Utils.h
-//  FeedforwardNT
+//  Othello
 //
 //  Created by Seddik hakime on 21/05/2017.
 //
@@ -18,6 +18,8 @@
 #include "Memory.h"
 
 #endif /* Utils_h */
+
+#define PROGRAM_NAME "Othello"
 
 void __attribute__((overloadable)) fatal(char head[_Nonnull]);
 void __attribute__((overloadable)) fatal(char head[_Nonnull], char message[_Nonnull]);

@@ -1,6 +1,6 @@
 //
 //  TimeProfile.c
-//  FeedforwardNT
+//  Othello
 //
 //  Created by Seddik hakime on 28/05/2017.
 //

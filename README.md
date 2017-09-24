@@ -64,9 +64,9 @@ Notes:
 1. Posix threads are needed because the minimax method uses them so that one tread explores the game tree associated with one possible move of the agent, thereby all possible moves are processed in parallel.
 
 2. Concerning the TD-Learning agent:
-    1. Learning from self-play (both agents share the same neural network) is not currently supported.
-    2. Learning from opponent’s moves is not currently supported, the agent only learns from its own moves.
-    3. Actions are chosen using a \epsilon-greedy exploration, however the value of \epsilon is currently kept constant
+    * Learning from self-play (both agents share the same neural network) is not currently supported.
+    * Learning from opponent’s moves is not currently supported, the agent only learns from its own moves.
+    * Actions are chosen using a \epsilon-greedy exploration, however the value of \epsilon is currently kept constant
 during training
 
 3. An implementation of BLAS/LAPACK is required to compile the program.

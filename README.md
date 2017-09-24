@@ -11,37 +11,49 @@ This program plays the Othello game against a human opponent. The program provid
 
 Compilation:
 
-`cd src`
-
-`make clean`
-
-`make`
+```
+cd src
+make depend
+make
+```
 
 Run with:
 
-`./Othello`
+```
+./Othello
+```
 
 The command above runs the game with the default settings: 8 x 8 board, human against computer (mode -play1) and a simple position evaluation function for the agent. One can give another board size and keep the same evaluation function with the command
 
-`./Othello 6`
+```
+./Othello 6
+```
 
-The agent can also use a minimax method to compute its next move. The method computes it so that the opponent's best possible move score is a minimum, essentially exploring the nodes of the game tree up to depth one for each of the agent possible move. The command is as follows
+The agent can also use a minimax method to compute its next move. It is determined so that the opponent's best possible move score is a minimum, essentially exploring the nodes of the game tree up to depth one for each of the agent possible move. The command is as follows
 
-`./Othello 8 -minimax`
+```
+./Othello 8 -minimax
+```
 
-Note that when a method is explicitly given, it must follow the argument for the board size. Setting it alone is not currently supported. Also the simple position evaluation function can be chosen explicitly with the argument: -evaluation-function.
+When a method is explicitly given, it must follow the argument for the board size. Setting it alone is not currently supported. Also the simple position evaluation function can be chosen explicitly with the argument: -evaluation-function.
 
 The program has also a neural network playing agent which can be trained with the TD-Learning algorithm. In order to test this agent and allow it to learn the game, it can play a user defined number of training games against another agent. The opponent agent can use either the evaluation function or the minimax method to play. The program can be run in this mode with the command
 
-`./Othello 8 -evaluation-function -play0`
+```
+./Othello 8 -evaluation-function -play0
+```
 
 or
 
-`./Othello 8 -minimax -play0`
+```
+./Othello 8 -minimax -play0
+```
 
-Parameters used to control the learning algorithm are defined in ../params/parameters.dat. During each training session, weights and biases are saved in the training directory. A human player can then play against the neural network playing agent with the command
+Parameters used to control the learning algorithm are defined in ../params/parameters.dat. During the training session, weights and biases are saved and a human player can then play against the neural network playing agent with the command
 
-`./Othello 8 -neural-network`
+```
+./Othello 8 -neural-network
+```
 
 In this playing mode, the neural network playing agent will load the weights and biases computed from the training.
 
@@ -49,15 +61,13 @@ If another training session is performed, the program will load the existing dat
 
 Notes:
 
-1. Please note that to write the logic of the Othello game, I took inspiration from available implementations of the game.
+1. Posix threads are needed because the minimax method uses them so that one tread explores the game tree associated with one possible move of the agent, thereby all possible moves are processed in parallel.
 
-2. Posix threads are needed because the minimax method uses them so that one tread explores the game tree associated with one possible move of the agent, thereby all possible moves are processed in parallel.
-
-3. Concerning the TD-Learning agent:
+2. Concerning the TD-Learning agent:
     1. Learning from self-play (both agents share the same neural network) is not currently supported.
     2. Learning from opponent’s moves is not currently supported, the agent only learns from its own moves.
     3. Actions are chosen using a \epsilon-greedy exploration, however the value of \epsilon is currently kept constant
 during training
 
-4. An implementation of BLAS/LAPACK is required to compile the program.
+3. An implementation of BLAS/LAPACK is required to compile the program.
 
